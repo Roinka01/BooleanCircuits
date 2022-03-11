@@ -2,8 +2,8 @@
 """A module containing the base class for the Node's content graphical representation. It also contains an example of
 an overridden Text Widget, which can pass a notification to it's parent about being modified."""
 from collections import OrderedDict
-from nodeeditor.node_serializable import Serializable
-from qtpy.QtWidgets import QWidget, QLabel, QVBoxLayout, QTextEdit
+from node_serializable import Serializable
+from qtpy.QtWidgets import QWidget, QLabel, QVBoxLayout, QTextEdit, QHBoxLayout
 
 
 class QDMNodeContentWidget(QWidget, Serializable):
@@ -34,7 +34,7 @@ class QDMNodeContentWidget(QWidget, Serializable):
 
         self.wdg_label = QLabel("Some Title")
         self.layout.addWidget(self.wdg_label)
-        self.layout.addWidget(QDMTextEdit("foo"))
+        self.layout.addWidget(QDMTextEdit("My Node"))
 
     def setEditingFlag(self, value:bool):
         """

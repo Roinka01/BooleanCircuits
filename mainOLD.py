@@ -3,7 +3,7 @@ from qtpy.QtWidgets import QApplication
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "", ".."))
 
-from nodeeditor.utils import loadStylesheet
+from utils import loadStylesheet
 from node_editor_window import NodeEditorWindow
 
 

@@ -196,6 +196,8 @@ class QDMGraphicsNode(QGraphicsItem):
         # title
         path_title = QPainterPath()
         path_title.setFillRule(Qt.WindingFill)
+    #    path_title.setFillRule(Qt.yellow)
+    #    path_title.addEllipse(0, 0, self.width, self.title_height)
         path_title.addRoundedRect(0, 0, self.width, self.title_height, self.edge_roundness, self.edge_roundness)
         path_title.addRect(0, self.title_height - self.edge_roundness, self.edge_roundness, self.edge_roundness)
         path_title.addRect(self.width - self.edge_roundness, self.title_height - self.edge_roundness, self.edge_roundness, self.edge_roundness)
@@ -204,7 +206,7 @@ class QDMGraphicsNode(QGraphicsItem):
         painter.drawPath(path_title.simplified())
 
 
-        # content
+        # # content
         path_content = QPainterPath()
         path_content.setFillRule(Qt.WindingFill)
         path_content.addRoundedRect(0, self.title_height, self.width, self.height - self.title_height, self.edge_roundness, self.edge_roundness)

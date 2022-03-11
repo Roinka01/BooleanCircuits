@@ -4,10 +4,10 @@ A module containing NodeEditor's class for representing `Node`.
 """
 from collections import OrderedDict
 from node_graphics_node import QDMGraphicsNode
-from nodeeditor.node_content_widget import QDMNodeContentWidget
-from nodeeditor.node_serializable import Serializable
-from nodeeditor.node_socket import Socket, LEFT_BOTTOM, LEFT_CENTER, LEFT_TOP, RIGHT_BOTTOM, RIGHT_CENTER, RIGHT_TOP
-from nodeeditor.utils import dumpException, pp
+from node_content_widget import QDMNodeContentWidget
+from node_serializable import Serializable
+from node_socket import Socket, LEFT_BOTTOM, LEFT_CENTER, LEFT_TOP, RIGHT_BOTTOM, RIGHT_CENTER, RIGHT_TOP
+from utils import dumpException, pp
 
 DEBUG = False
 

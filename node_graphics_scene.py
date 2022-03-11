@@ -8,8 +8,8 @@ import math
 from qtpy.QtWidgets import QGraphicsScene, QWidget
 from qtpy.QtCore import Signal, QRect, QLine, Qt
 from qtpy.QtGui import QColor, QPen, QFont, QPainter
-from nodeeditor.utils import dumpException
-from nodeeditor.node_graphics_view import STATE_STRING, DEBUG_STATE
+from utils import dumpException
+from node_graphics_view import STATE_STRING, DEBUG_STATE
 
 
 class QDMGraphicsScene(QGraphicsScene):

@@ -6,7 +6,7 @@ from qtpy.QtWidgets import QGraphicsPathItem, QWidget, QGraphicsItem
 from qtpy.QtGui import QColor, QPen, QPainterPath
 from qtpy.QtCore import Qt, QRectF, QPointF
 
-from nodeeditor.node_graphics_edge_path import GraphicsEdgePathBezier, GraphicsEdgePathDirect, GraphicsEdgePathSquare
+from node_graphics_edge_path import GraphicsEdgePathBezier, GraphicsEdgePathDirect, GraphicsEdgePathSquare
 
 
 class QDMGraphicsEdge(QGraphicsPathItem):
