@@ -260,7 +260,7 @@ class Node(Serializable):
 
         elif position in (LEFT_TOP, RIGHT_TOP):
             # start from top
-            y = self.grNode.title_height + self.grNode.title_vertical_padding + self.grNode.edge_roundness + index * self.socket_spacing
+            y = self.grNode.title_height*3 + self.grNode.title_vertical_padding + self.grNode.edge_roundness + index * self.socket_spacing
         else:
             # this should never happen
             y = 0
