@@ -121,8 +121,8 @@ class Node(Serializable):
         """Initialize properties and socket information"""
         self.socket_spacing = 22
 
-        self.input_socket_position = LEFT_BOTTOM
-        self.output_socket_position = RIGHT_TOP
+        self.input_socket_position = LEFT_TOP
+        self.output_socket_position = RIGHT_CENTER
         self.input_multi_edged = False
         self.output_multi_edged = True
         self.socket_offsets = {
@@ -157,9 +157,10 @@ class Node(Serializable):
 
         # create new sockets
         counter = 0
+        input_socket_pos=[LEFT_TOP, LEFT_BOTTOM]
         for item in inputs:
             socket = self.__class__.Socket_class(
-                node=self, index=counter, position=self.input_socket_position,
+                node=self, index=counter, position=input_socket_pos[counter],
                 socket_type=item, multi_edges=self.input_multi_edged,
                 count_on_this_node_side=len(inputs), is_input=True
             )
