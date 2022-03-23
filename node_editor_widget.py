@@ -12,6 +12,7 @@ from node_node import Node
 from node_edge import Edge, EDGE_TYPE_BEZIER
 from node_graphics_view import QDMGraphicsView
 from utils import dumpException
+from node_file_parsing import filePrsing
 
 
 class NodeEditorWidget(QWidget):
@@ -158,15 +159,26 @@ class NodeEditorWidget(QWidget):
         # node1 = Node(self.scene, "My Awesome Node 1", inputs=[0,0,0], outputs=[1,5])
         # node2 = Node(self.scene, "My Awesome Node 2", inputs=[3,3,3], outputs=[1])
         # node3 = Node(self.scene, "My Awesome Node 3", inputs=[2,2,2], outputs=[1])
-        node1 = Node(self.scene, "OR GATE", inputs=[0, 0], outputs=[1])
-        node2 = Node(self.scene, "AND GATE", inputs=[3, 3], outputs=[1])
-        node3 = Node(self.scene, "XOR GATE", inputs=[2, 2], outputs=[1])
-        node1.setPos(-350, -250)
-        node2.setPos(-75, 0)
-        node3.setPos(200, -200)
+        # node1 = Node(self.scene, "OR GATE", inputs=[0, 0], outputs=[1])
+        # node2 = Node(self.scene, "AND GATE", inputs=[3, 3], outputs=[1])
+        # node3 = Node(self.scene, "XOR GATE", inputs=[2, 2], outputs=[1])
+        fp=filePrsing()
+        num_of_and, num_of_or, num_of_not=fp.getGates()
+        tot=num_of_and+ num_of_or+ num_of_not
+        print(tot)
+        nodes=[2]
+        for i in range(tot):
+        #     print("i={}".format(i))
+             nodes.insert(i,Node(self.scene, "OR GATE", inputs=[i+1, i+1], outputs=[1]))
+             nodes[i].setPos(-150*i, -250)
+        # nodes.insert(0,Node(self.scene, "OR GATE", inputs=[0, 0], outputs=[1]))
+        # nodes.insert(1,Node(self.scene, "OR GATE", inputs=[1, 1], outputs=[1]))
+        # nodes[0].setPos(-350, -250)
+        # nodes[1].setPos(-75, 0)
+        # node3.setPos(200, -200)
 
-        edge1 = Edge(self.scene, node1.outputs[0], node2.inputs[0], edge_type=EDGE_TYPE_BEZIER)
-        edge2 = Edge(self.scene, node2.outputs[0], node3.inputs[0], edge_type=EDGE_TYPE_BEZIER)
+        #edge1 = Edge(self.scene, node1.outputs[0], node2.inputs[0], edge_type=EDGE_TYPE_BEZIER)
+        #edge2 = Edge(self.scene, node2.outputs[0], node3.inputs[0], edge_type=EDGE_TYPE_BEZIER)
         # edge3 = Edge(self.scene, node1.outputs[0], node3.inputs[2], edge_type=EDGE_TYPE_BEZIER)
 
         self.scene.history.storeInitialHistoryStamp()
