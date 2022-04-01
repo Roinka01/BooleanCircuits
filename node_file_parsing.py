@@ -1,43 +1,77 @@
 import re
 
+
 class filePrsing():
-    def __init__(self):
+    def __init__(self) -> object:
+        """
+
+        :rtype: object
+        """
         pass
+
     def getGates(self):
-        gates= {'and','or','not'}
-        listOfGates=[]
+        gates = {'and', 'or', 'not'}
+        listOfGates = []
+        inputs = []
+        outPuts = []
+        outputPair = []
+        i=0
         with open("demofile.txt", "r") as fo:
             for line in fo:
-                line=line.lower()
+                line = line.lower()
                 if ' wire' in line:
-                    #print(line)
-                    beginInd=line.find('wire')+'wire'.__len__()
-                    endInd=line.find('\n')
-                    outPuts=re.split(',|;',line[beginInd:endInd-1])
-                    #print(outPuts)
+                    # print(line)
+                    # beginInd = line.find('wire') + 'wire'.__len__()
+                    # endInd = line.find('\n')
+                    # outPuts = re.split(',|;', line[beginInd:endInd - 1])
+                    # print(outPuts)
                     continue
                 if ' and' in line:
-                    #print(line)
+                    # print(line)
                     listOfGates.append('AND')
+                    inputPair=line[line.find(',')+1:line.find(')')].split(',')
+                    inputPair.append(i)
+                    inputs.append(inputPair)
+                    outputPair=[line[line.find('(')+1:line.find(',')],i]
+                    #print(outputPair)
+                    outPuts.append(outputPair)
+                    #print(outPuts)
+                    i += 1
                 elif ' or' in line:
-                    #print(line)
+                    # print(line)
                     listOfGates.append('OR')
+                    inputPair = line[line.find(',') + 1:line.find(')')].split(',')
+                    inputs.append(inputPair)
+                    inputPair.append(i)
+                    outputPair=[line[line.find('(') + 1:line.find(',')],i]
+                    outPuts.append(outputPair)
+                    i += 1
                 elif ' not' in line:
-                    #print(line)
+                    # print(line)
                     listOfGates.append('NOT')
+                    in1 = line.find(',') + 1
+                    in2 = line.find(')')
+                    in3 = line[in1:in2]
+                    inputPair = in3.split(',')
+                    inputPair.append(i)
+                    inputs.append(inputPair)
+                    outputPair=[line[line.find('(') + 1:line.find(',')],i]
+                    outPuts.append(outputPair)
+                    i += 1
                 else:
-                    gateTpe=''
+                    gateTpe = ''
                     continue
-                outIndxBegin=line.find('(')
-                outIndxEnd = line.find(',')
-                out.append(line[outIndxBegin+1:outIndxEnd])
-        print (listOfGates)
-        print(out)
-        print(outPuts)
+                # outIndxBegin=line.find('(')
+                # outIndxEnd = line.find(',')
+                # out.append(line[outIndxBegin+1:outIndxEnd])
+        print(listOfGates)
+        print("inputs={}".format(inputs))
+        # print(out)
+        print("outPuts={}".format(outPuts))
 
-        if __name__ == '__main__':
-            fp=filePrsing()
-            fp.getGates()
+if __name__ == '__main__':
+    fp = filePrsing()
+    fp.getGates()
         #     if (gates[0])
         #
         # txt = f.read()
@@ -49,5 +83,3 @@ class filePrsing():
         # return num_of_and, num_of_or, num_of_not
         #
         #
-
-

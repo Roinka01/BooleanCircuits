@@ -163,9 +163,10 @@ class NodeEditorWidget(QWidget):
         # node2 = Node(self.scene, "AND GATE", inputs=[3, 3], outputs=[1])
         # node3 = Node(self.scene, "XOR GATE", inputs=[2, 2], outputs=[1])
         fp=filePrsing()
-        num_of_and, num_of_or, num_of_not=fp.getGates()
-        tot=num_of_and+ num_of_or+ num_of_not
-        print(tot)
+        fp.getGates()
+        # num_of_and, num_of_or, num_of_not=fp.getGates()
+        # tot=num_of_and+ num_of_or+ num_of_not
+        # print(tot)
         nodes=[2]
         for i in range(tot):
         #     print("i={}".format(i))
