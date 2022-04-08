@@ -1,5 +1,5 @@
 import re
-
+from Gate import Gate
 
 class filePrsing():
     def __init__(self) -> object:
@@ -15,6 +15,7 @@ class filePrsing():
         inputs = []
         outPuts = []
         outputPair = []
+        ConcatenatedGateList=[]
         i=0
         with open("demofile.txt", "r") as fo:
             for line in fo:
@@ -35,6 +36,8 @@ class filePrsing():
                     outputPair=[line[line.find('(')+1:line.find(',')],i]
                     #print(outputPair)
                     outPuts.append(outputPair)
+                    ConcatenatedGateList.append(Gate("AND", inputs[i][0],inputs[i][1],outPuts[i][0],i))
+                    #print("And {}".format(i))
                     #print(outPuts)
                     i += 1
                 elif ' or' in line:
@@ -45,6 +48,8 @@ class filePrsing():
                     inputPair.append(i)
                     outputPair=[line[line.find('(') + 1:line.find(',')],i]
                     outPuts.append(outputPair)
+                    ConcatenatedGateList.append(Gate("OR", inputs[i][0], inputs[i][1], outPuts[i][0], i))
+                    #print("Or {}".format(i))
                     i += 1
                 elif ' not' in line:
                     # print(line)
@@ -57,6 +62,8 @@ class filePrsing():
                     inputs.append(inputPair)
                     outputPair=[line[line.find('(') + 1:line.find(',')],i]
                     outPuts.append(outputPair)
+                    ConcatenatedGateList.append(Gate("NOT", inputs[i][0],"", outPuts[i][0], i))
+                    #print("Not {}".format(i))
                     i += 1
                 else:
                     gateTpe = ''
@@ -64,6 +71,9 @@ class filePrsing():
                 # outIndxBegin=line.find('(')
                 # outIndxEnd = line.find(',')
                 # out.append(line[outIndxBegin+1:outIndxEnd])
+        for gt in ConcatenatedGateList:
+            #print(gt.GateType,gt.getPositionStr(),gt.getEntries(),gt.getOutput())
+            print(gt.getGateCharectaristics())
         print(listOfGates)
         print("inputs={}".format(inputs))
         # print(out)
