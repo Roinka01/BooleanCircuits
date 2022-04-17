@@ -13,14 +13,26 @@ class ConcatenatedGateList:
     def printList(self):
         for gt in self.GateList:
             print(gt.getGateCharectaristics())
-    def getFollowingGatePos(self,gt):
-        for g in self.GateList:
-            if (gt.getOutput() in g.getEntries()):
-                return g.getPosition()
+    def getListLength(self):
+        return self.len
+    def advanceGate(self,g,newPos):
+        g.setPosition(newPos)
+        #print(g.getGateCharectaristics())
+        for gate in self.getGateList():
+             if (g.getOutput() in gate.getEntries()):
+               # gate.setPosition(currGate.getPosition()+1)
+                 self.advanceGate(gate, g.getPosition() + 1)
+    def switchGateInd(self,ind1,ind2):
+        tmp=self.GateList[ind1]
+        self.GateList[ind1]=self.GateList[ind2]
+        self.GateList[ind2]=tmp
 
     def sortList(self):
-        for gt in self.GateList:
-            followingGatePos=self.getFollowingGatePos(gt)
-            if (followingGatePos is not None):
-                self.GateList[followingGatePos].setPosition(gt.getPosition()+1)
-
+        for currGate in self.getGateList():
+            for gate in self.getGateList():
+                if (currGate.getOutput() in gate.getEntries()):
+                    self.advanceGate(gate,currGate.getPosition()+1)
+        for i in range(0,self.len-1):
+            for j in range(0,self.len-i-1):
+                if (self.GateList[j].getPosition()>self.GateList[j+1].getPosition()):
+                    self.switchGateInd(j,j+1)

@@ -3,8 +3,8 @@
 
 module my_xor (output myOut, input inA, input inB);
   wire x, y , not_inB, not_inA;
-  and (x, inA, not_inB);
   and (y, inB, not_inA);
+  and (x, inA, not_inB);
   not (not_inB,inB);
   not (not_inA,inA);
   or (myOut, x,y);

@@ -76,26 +76,14 @@ class filePrsing():
         # for gt in ConcatenatedGateList:
         #     #print(gt.GateType,gt.getPositionStr(),gt.getEntries(),gt.getOutput())
         #     #print(gt.getGateCharectaristics())
-        _list.printList()
-        print("****************")
-        _list.sortList()
-        _list.printList()
-        # print(listOfGates)
-        # print("inputs={}".format(inputs))
-        # # print(out)
-        # print("outPuts={}".format(outPuts))
+        # _list.printList()
+        # print("****************")
+        # _list.sortList()
+        # _list.printList()
+        return _list
 
-if __name__ == '__main__':
-    fp = filePrsing()
-    fp.getGates()
-        #     if (gates[0])
-        #
-        # txt = f.read()
-        # num_of_and = txt.count('and ')
-        # num_of_or = txt.count(' or ')
-        # num_of_not = txt.count('not ')
-        # #print("num_of_not={0},num_of_or={1}, num_of_and={2}".format(num_of_not, num_of_or, num_of_and))
-        # f.close()
-        # return num_of_and, num_of_or, num_of_not
-        #
-        #
+
+# if __name__ == '__main__':
+#     fp = filePrsing()
+#     fp.getGates()
+
