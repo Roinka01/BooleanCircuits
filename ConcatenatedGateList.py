@@ -10,9 +10,21 @@ class ConcatenatedGateList:
         self.len+=1
     def getGateList(self):
         return self.GateList
+    def getConnectedGateInput(self,currGate):
+        outputGateName = currGate.getOutput()
+        ind=0
+        for g in self.getGateList():
+            if outputGateName in g.getListEntries():  # following gate found
+                if outputGateName == g.getEntries()[0]:
+                    return ind,0
+                elif outputGateName == g.getEntries()[1]:
+                    return ind, 1
+            ind+=1
+        return 0,0
+
     def printList(self):
-        for gt in self.GateList:
-            print(gt.getGateCharectaristics())
+        for gl in self.GateList:
+            print(gl.getGateCharectaristics())
     def getListLength(self):
         return self.len
     def advanceGate(self,g,newPos):

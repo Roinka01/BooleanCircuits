@@ -54,7 +54,6 @@ class Socket(Serializable):
             - **is_output** - ``True`` if this socket serves for Output
         """
         super().__init__()
-
         self.node = node
         self.position = position
         self.index = index

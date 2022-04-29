@@ -23,6 +23,8 @@ class Gate():
         outputPtr = _nextGateEntry
     def getEntries(self):
         return self.FirstEntry, self.SecondEntry
+    def getListEntries(self):
+        return self.FirstEntry+" , "+ self.SecondEntry
     def getOutput(self):
         return self.GateOutput
     def getOutputPtr(self):

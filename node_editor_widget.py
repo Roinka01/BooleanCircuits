@@ -153,6 +153,13 @@ class NodeEditorWidget(QWidget):
         QApplication.restoreOverrideCursor()
         return True
 
+    def addEdges(self, _List, nodes):
+        i=0
+        for g in _List.getGateList():
+            nextNodeInd, inputInd = _List.getConnectedGateInput(g)
+            if nextNodeInd!=0:
+                Edge(self.scene, nodes[i].outputs[0],nodes[nextNodeInd].inputs[inputInd], edge_type = EDGE_TYPE_BEZIER)
+                i+=1
 
     def addNodes(self,_List):
         """Testing method to create 3 `Nodes` with 3 `Edges` connecting them"""
@@ -162,16 +169,7 @@ class NodeEditorWidget(QWidget):
         # node1 = Node(self.scene, "OR GATE", inputs=[0, 0], outputs=[1])
         # node2 = Node(self.scene, "AND GATE", inputs=[3, 3], outputs=[1])
         # node3 = Node(self.scene, "XOR GATE", inputs=[2, 2], outputs=[1])
-        # fp=filePrsing()
-        # fp.getGates()
-        # num_of_and, num_of_or, num_of_not=fp.getGates()
-        # tot=num_of_and+ num_of_or+ num_of_not
-        # print(tot)
-        # nodes=[2]
-        # for i in range(tot):
-        # #     print("i={}".format(i))
-        #      nodes.insert(i,Node(self.scene, "OR GATE", inputs=[i+1, i+1], outputs=[1]))
-        #      nodes[i].setPos(-150*i, -250)
+
         gateWidth=250
         gateHight = 250
         prevPos=-1
@@ -179,8 +177,8 @@ class NodeEditorWidget(QWidget):
         nodes=[_List.getListLength()]
         i=0
         for g in _List.getGateList():
-            print("i=",i,g.getGateCharectaristics())
-            nodes.insert(i, Node(self.scene, g.getGateType(), inputs=[i + 1, i + 1], outputs=[1]))
+            nodes.insert(i, Node(self.scene, g.getGateType(),
+                                 g.getListEntries()+" Output: "+g.getOutput(), inputs=[i + 1, i + 1], outputs=[1]))
             currGatePos=g.getPosition()
             xPos=currGatePos*gateWidth-300
             if (prevPos==currGatePos):
@@ -190,15 +188,11 @@ class NodeEditorWidget(QWidget):
                 prevPos=currGatePos
             nodes[i].setPos(xPos,yPos)
             i+=1
-        # nodes.insert(0,Node(self.scene, "OR GATE", inputs=[0, 0], outputs=[1]))
-        # nodes.insert(1,Node(self.scene, "OR GATE", inputs=[1, 1], outputs=[1]))
-        # nodes[0].setPos(-350, -250)
-        # nodes[1].setPos(-75, 0)
-        # node3.setPos(200, -200)
+        self.addEdges(_List,nodes)
 
         #edge1 = Edge(self.scene, node1.outputs[0], node2.inputs[0], edge_type=EDGE_TYPE_BEZIER)
         #edge2 = Edge(self.scene, node2.outputs[0], node3.inputs[0], edge_type=EDGE_TYPE_BEZIER)
-        # edge3 = Edge(self.scene, node1.outputs[0], node3.inputs[2], edge_type=EDGE_TYPE_BEZIER)
+        # edge3 = Edge(self.scene,y node1.outputs[0], node3.inputs[2], edge_type=EDGE_TYPE_BEZIER)
 
         self.scene.history.storeInitialHistoryStamp()
 

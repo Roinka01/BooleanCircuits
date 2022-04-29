@@ -20,7 +20,8 @@ class Node(Serializable):
     NodeContent_class = QDMNodeContentWidget
     Socket_class = Socket
 
-    def __init__(self, scene: 'Scene', title: str="Undefined Node", inputs: list=[], outputs: list=[]):
+    def __init__(self, scene: 'Scene', title: str="Undefined Node", InAndOutList: str='None',
+                 inputs: list=[], outputs: list=[]):
         """
 
         :param scene: reference to the :class:`~nodeeditor.node_scene.Scene`
@@ -42,6 +43,7 @@ class Node(Serializable):
         super().__init__()
         self._title = title
         self.scene = scene
+        self.socketStrList = InAndOutList
 
         # just to be sure, init these variables
         self.content = None
@@ -107,8 +109,11 @@ class Node(Serializable):
         """Sets up graphics Node (PyQt) and Content Widget"""
         node_content_class = self.getNodeContentClass()
         graphics_node_class = self.getGraphicsNodeClass()
-        if node_content_class is not None: self.content = node_content_class(self)
-        if graphics_node_class is not None: self.grNode = graphics_node_class(self)
+        # if node_content_class is not None: self.content = node_content_class(self)
+        # if graphics_node_class is not None: self.grNode = graphics_node_class(self)
+        self.content = QDMNodeContentWidget(self)   #added here
+        self.grNode = QDMGraphicsNode(self)    #added here
+
 
     def getNodeContentClass(self):
         """Returns class representing nodeeditor content"""
@@ -123,7 +128,7 @@ class Node(Serializable):
 
         self.input_socket_position = LEFT_TOP
         self.output_socket_position = RIGHT_CENTER
-        self.input_multi_edged = False
+        self.input_multi_edged = True
         self.output_multi_edged = True
         self.socket_offsets = {
             LEFT_BOTTOM: -1,
