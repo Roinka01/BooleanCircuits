@@ -1,0 +1,11 @@
+`timescale 1ns/1ns
+
+module my_boolean_circuit (...);
+  wire x, y , not_inb, not_ina;
+
+NOT (inb , ,not_inb);
+	NOT (ina , ,not_ina);
+	AND (inb , not_ina,y);
+	AND (ina , not_inb,x);
+	OR (x , y,myout);
+	endmodule

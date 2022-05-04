@@ -18,15 +18,17 @@ class filePrsing():
         outputPair = []
         _list=ConcatenatedGateList()
         i=0
-        with open("demofile.txt", "r") as fo:
-            for line in fo:
+        with open("demofile.txt", "r") as file:
+            for line in file:
                 line = line.lower()
-                if ' wire' in line:
+                if 'wire' in line:
                     # beginInd = line.find('wire') + 'wire'.__len__()
                     # endInd = line.find('\n')
                     # outPuts = re.split(',|;', line[beginInd:endInd - 1])
-                    continue
-                if ' and' in line:
+                    _list.addWire(line)
+                elif 'time' in line:
+                    _list.addTimeScale(line)
+                elif ' and' in line:
                     listOfGates.append('AND')
                     inputPair=line[line.find(',')+1:line.find(')')].split(',')
                     inputPair.append(i)

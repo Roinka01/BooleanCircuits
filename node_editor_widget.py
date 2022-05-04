@@ -169,6 +169,10 @@ class NodeEditorWidget(QWidget):
         # node1 = Node(self.scene, "OR GATE", inputs=[0, 0], outputs=[1])
         # node2 = Node(self.scene, "AND GATE", inputs=[3, 3], outputs=[1])
         # node3 = Node(self.scene, "XOR GATE", inputs=[2, 2], outputs=[1])
+        if (_List is None):
+            return None
+
+        self.scene.addList(_List)
 
         gateWidth=250
         gateHight = 250

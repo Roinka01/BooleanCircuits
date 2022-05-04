@@ -41,7 +41,6 @@ class Edge(Serializable):
         """
         super().__init__()
         self.scene = scene
-        print("node_edge:init ")
         # default init
         self._start_socket = None
         self._end_socket = None

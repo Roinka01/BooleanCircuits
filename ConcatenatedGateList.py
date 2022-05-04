@@ -5,9 +5,19 @@ class ConcatenatedGateList:
     def __init__(self):
         self.GateList=[]
         self.len=0
+        self._wire=''
+        self._timeScale = ''
     def addGate(self, gate ):
         self.GateList.append(gate)
         self.len+=1
+    def addWire(self, wireLine):
+        self._wire=wireLine
+    def getWire(self):
+        return self._wire
+    def addTimeScale(self, timeScaleLine):
+        self._timeScale=timeScaleLine
+    def getTimeScale(self):
+        return self._timeScale
     def getGateList(self):
         return self.GateList
     def getConnectedGateInput(self,currGate):
@@ -25,6 +35,23 @@ class ConcatenatedGateList:
     def printList(self):
         for gl in self.GateList:
             print(gl.getGateCharectaristics())
+    def listToProlog(self):
+        prlFile=self.getTimeScale()+'\n'+'module my_boolean_circuit (...);\n'
+        prlFile+=self.getWire() #+'\n'
+        # print(prlFile)
+        for gate in self.GateList:
+            gateType=gate.getGateType()+' ('
+            gateEntries=gate.getListEntries()+','
+            gateOutput=gate.getOutput()+')'
+            prlFile+='\t'+gateType+gateEntries+gateOutput+';\n'
+        return prlFile+"endmodule"
+
+    def List2Str(self):
+        l=''
+        for gl in self.GateList:
+            l+=gl.getGateCharectaristics()+'\n'
+        # print("in list: ",l)
+        return l
     def getListLength(self):
         return self.len
     def advanceGate(self,g,newPos):

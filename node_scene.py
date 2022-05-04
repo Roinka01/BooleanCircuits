@@ -11,6 +11,7 @@ from node_node import Node
 from node_edge import Edge
 from node_scene_history import SceneHistory
 from node_scene_clipboard import SceneClipboard
+from ConcatenatedGateList import ConcatenatedGateList
 
 
 DEBUG_REMOVE_WARNINGS = False
@@ -35,6 +36,7 @@ class Scene(Serializable):
         super().__init__()
         self.nodes = []
         self.edges = []
+        self.list = []
 
         # current filename assigned to this scene
         self.filename = None
@@ -262,6 +264,14 @@ class Scene(Serializable):
         """
         self.edges.append(edge)
 
+    def addList(self,_list: ConcatenatedGateList):
+        self.list=_list
+    def printList(self):
+        self.list.printList()
+
+    def getList(self):
+        return self.list
+
     def removeNode(self, node: Node):
         """Remove :class:`~nodeeditor.node_node.Node` from this `Scene`
 
@@ -300,12 +310,21 @@ class Scene(Serializable):
         :param filename: where to save this scene
         :type filename: ``str``
         """
-        with open(filename, "w") as file:
-            file.write( json.dumps( self.serialize(), indent=4 ) )
-            print("saving to", filename, "was successfull.")
+        # with open(filename, "w") as file:
+        #     file.write( json.dumps( self.serialize(), indent=4 ) )
+        #     print("saving to", filename, "was successfull.")
+        #     self.has_been_modified = False
+        #     self.filename = filename
 
-            self.has_been_modified = False
-            self.filename = filename
+        l=self.getList()
+        with open(filename, "w") as file:
+            file.write( l.listToProlog() )
+        # str=self.getList()
+        # print(str)
+        # f = open("C:\\Users\\roibi\\PycharmProjects\\NE\\Files\\demofile2.txt", "w")
+        # f.write(str)
+        # f.close()
+
 
     def loadFromFile(self, filename: str):
         """
@@ -315,7 +334,6 @@ class Scene(Serializable):
         :type filename: ``str``
         :raises: :class:`~nodeeditor.node_scene.InvalidFile` if there was an error decoding JSON file
         """
-
         with open(filename, "r") as file:
             raw_data = file.read()
             try:
