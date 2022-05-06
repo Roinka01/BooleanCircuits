@@ -6,5 +6,4 @@ module my_boolean_circuit (...);
   not (not_ina, ina , );
   and (y, inb , not_ina);
   and (x, ina , not_inb);
-  or (myout, x , y);
 endmodule

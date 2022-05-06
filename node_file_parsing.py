@@ -3,11 +3,11 @@ from Gate import Gate
 from ConcatenatedGateList import ConcatenatedGateList
 
 class filePrsing():
-    def __init__(self) -> object:
+    def __init__(self, fileName) -> object:
         """
-
         :rtype: object
         """
+        self._fileName=fileName
         pass
 
     def getGates(self):
@@ -18,7 +18,7 @@ class filePrsing():
         outputPair = []
         _list=ConcatenatedGateList()
         i=0
-        with open("demofile.txt", "r") as file:
+        with open(self._fileName, "r") as file:
             for line in file:
                 line = line.lower()
                 if 'wire' in line:

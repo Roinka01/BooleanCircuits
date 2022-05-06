@@ -12,6 +12,7 @@ from node_edge import Edge
 from node_scene_history import SceneHistory
 from node_scene_clipboard import SceneClipboard
 from ConcatenatedGateList import ConcatenatedGateList
+from node_file_parsing import filePrsing
 
 
 DEBUG_REMOVE_WARNINGS = False
@@ -272,13 +273,20 @@ class Scene(Serializable):
     def getList(self):
         return self.list
 
+    def clearList(self):
+        if (self.list is not None):
+            self.list.clear()
+
     def removeNode(self, node: Node):
         """Remove :class:`~nodeeditor.node_node.Node` from this `Scene`
 
         :param node: :class:`~nodeeditor.node_node.Node` to be removed from this `Scene`
         :type node: :class:`~nodeeditor.node_node.Node`
         """
-        if node in self.nodes: self.nodes.remove(node)
+        if node in self.nodes:
+            self.nodes.remove(node)
+            l=self.getList()
+            l.removeGate(node)
         else:
             if DEBUG_REMOVE_WARNINGS: print("!W:", "Scene::removeNode", "wanna remove nodeeditor", node,
                                             "from self.nodes but it's not in the list!")
@@ -319,6 +327,9 @@ class Scene(Serializable):
         l=self.getList()
         with open(filename, "w") as file:
             file.write( l.listToProlog() )
+        print("saving to", filename, "was successfull.")
+        self.has_been_modified = False
+        self.filename = filename
         # str=self.getList()
         # print(str)
         # f = open("C:\\Users\\roibi\\PycharmProjects\\NE\\Files\\demofile2.txt", "w")
@@ -348,6 +359,7 @@ class Scene(Serializable):
                 raise InvalidFile("%s is not a valid JSON file" % os.path.basename(filename))
             except Exception as e:
                 dumpException(e)
+
 
     def getEdgeClass(self):
         """Return the class representing Edge. Override me if needed"""

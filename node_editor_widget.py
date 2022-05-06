@@ -13,6 +13,7 @@ from node_edge import Edge, EDGE_TYPE_BEZIER
 from node_graphics_view import QDMGraphicsView
 from utils import dumpException
 from node_file_parsing import filePrsing
+from ConcatenatedGateList import ConcatenatedGateList
 
 
 class NodeEditorWidget(QWidget):
@@ -123,7 +124,15 @@ class NodeEditorWidget(QWidget):
         """
         QApplication.setOverrideCursor(Qt.WaitCursor)
         try:
-            self.scene.loadFromFile(filename)
+            # self.scene.loadFromFile(filename)
+            self.scene.filename = filename
+            #self.scene.has_been_modified = False
+            #self.scene.clearList()              #remove the old gate list
+            fp = filePrsing(filename)
+            _list = fp.getGates()
+            _list.sortList()
+            # _list.printList()
+            self.addNodes(_list)
             self.filename = filename
             self.scene.history.clear()
             self.scene.history.storeInitialHistoryStamp()
@@ -161,7 +170,7 @@ class NodeEditorWidget(QWidget):
                 Edge(self.scene, nodes[i].outputs[0],nodes[nextNodeInd].inputs[inputInd], edge_type = EDGE_TYPE_BEZIER)
                 i+=1
 
-    def addNodes(self,_List):
+    def addNodes(self,_List=None):
         """Testing method to create 3 `Nodes` with 3 `Edges` connecting them"""
         # node1 = Node(self.scene, "My Awesome Node 1", inputs=[0,0,0], outputs=[1,5])
         # node2 = Node(self.scene, "My Awesome Node 2", inputs=[3,3,3], outputs=[1])
@@ -181,8 +190,10 @@ class NodeEditorWidget(QWidget):
         nodes=[_List.getListLength()]
         i=0
         for g in _List.getGateList():
-            nodes.insert(i, Node(self.scene, g.getGateType(),
-                                 g.getListEntries()+" Output: "+g.getOutput(), inputs=[i + 1, i + 1], outputs=[1]))
+            nodes.insert(i, Node(self.scene, g, inputs=[i + 1, i + 1], outputs=[1]))
+            # nodes.insert(i, Node(self.scene, g.getGateType(),g.getPosition(),
+            #               g.getListEntries()+" Output: "+g.getOutput()
+            #                      , inputs=[i + 1, i + 1], outputs=[1]))
             currGatePos=g.getPosition()
             xPos=currGatePos*gateWidth-300
             if (prevPos==currGatePos):

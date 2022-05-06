@@ -8,6 +8,7 @@ from node_content_widget import QDMNodeContentWidget
 from node_serializable import Serializable
 from node_socket import Socket, LEFT_BOTTOM, LEFT_CENTER, LEFT_TOP, RIGHT_BOTTOM, RIGHT_CENTER, RIGHT_TOP
 from utils import dumpException, pp
+from Gate import Gate
 
 DEBUG = False
 
@@ -20,8 +21,12 @@ class Node(Serializable):
     NodeContent_class = QDMNodeContentWidget
     Socket_class = Socket
 
-    def __init__(self, scene: 'Scene', title: str="Undefined Node", InAndOutList: str='None',
-                 inputs: list=[], outputs: list=[]):
+    def __init__(self, scene: 'Scene',gate:Gate=None ,
+        # title: str="Undefined Node", gatePos=0,InAndOutList: str='None',
+             inputs: list=[], outputs: list=[]):
+        title=gate.getGateType()
+        InAndOutList=gate.getListEntries()+" Output: "+gate.getOutput()
+        gatePos=gate.getPosition()
         """
 
         :param scene: reference to the :class:`~nodeeditor.node_scene.Scene`
@@ -43,8 +48,8 @@ class Node(Serializable):
         super().__init__()
         self._title = title
         self.scene = scene
-        self.socketStrList = InAndOutList
-
+        self.gatePos=gatePos
+        self.socketStrList =InAndOutList
         # just to be sure, init these variables
         self.content = None
         self.grNode = None
@@ -69,6 +74,8 @@ class Node(Serializable):
     def __str__(self):
         return "<%s:%s %s..%s>" % (self.title, self.__class__.__name__,hex(id(self))[2:5], hex(id(self))[-3:])
 
+    def getGate(self):
+        return _gate
     @property
     def title(self):
         """

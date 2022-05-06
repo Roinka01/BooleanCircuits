@@ -10,6 +10,14 @@ class ConcatenatedGateList:
     def addGate(self, gate ):
         self.GateList.append(gate)
         self.len+=1
+    def removeGate(self,node):
+        ind=0
+        for g in self.GateList:
+            if (g.getPosition()==node.gatePos):  #gate found
+                self.GateList.pop(ind)
+            ind+=1
+        self.len -= 1
+
     def addWire(self, wireLine):
         self._wire=wireLine
     def getWire(self):
@@ -40,10 +48,10 @@ class ConcatenatedGateList:
         prlFile+=self.getWire() #+'\n'
         # print(prlFile)
         for gate in self.GateList:
-            gateType=gate.getGateType()+' ('
-            gateEntries=gate.getListEntries()+','
-            gateOutput=gate.getOutput()+')'
-            prlFile+='\t'+gateType+gateEntries+gateOutput+';\n'
+            gateType=gate.getGateType().lower()+' ('
+            gateOutput=gate.getOutput()+', '
+            gateEntries=gate.getListEntries()+')'
+            prlFile+='  '+gateType+gateOutput+gateEntries+';\n'
         return prlFile+"endmodule"
 
     def List2Str(self):

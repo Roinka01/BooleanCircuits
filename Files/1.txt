@@ -2,10 +2,9 @@
 
 module my_boolean_circuit (...);
   wire x, y , not_inb, not_ina;
-
-NOT (inb , ,not_inb);
-	NOT (ina , ,not_ina);
-	AND (inb , not_ina,y);
-	AND (ina , not_inb,x);
-	OR (x , y,myout);
-	endmodule
+	not (not_inb, inb , );
+	not (not_ina, ina , );
+	and (y, inb , not_ina);
+	and (x, ina , not_inb);
+	or (myout, x , y);
+endmodule
