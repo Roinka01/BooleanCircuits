@@ -169,7 +169,8 @@ class NodeEditorWindow(QMainWindow):
 
     def getFileDialogFilter(self):
         """Returns ``str`` standard file open/save filter for ``QFileDialog``"""
-        return 'Graph (*.json);;All files (*)'
+        #return 'Graph (*.json);;All files (*)'
+        return 'Graph (*.txt);;All files (*)'
 
     def onFileNew(self):
         """Hande File New operation"""

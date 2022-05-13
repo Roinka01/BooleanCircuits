@@ -1,0 +1,12 @@
+`timescale 1ns/1ns
+
+module my_boolean_circuit (output myout, input ina, input inb);
+  wire x, y , not_inb, not_ina;
+  input (ina, CircleInput , CircleInput);
+  input (inb, CircleInput , CircleInput);
+  not (not_inb, inb , );
+  not (not_ina, ina , );
+  and (y, inb , not_ina);
+  and (x, ina , not_inb);
+  or (myout, x , y);
+endmodule

@@ -330,6 +330,7 @@ class Scene(Serializable):
         print("saving to", filename, "was successfull.")
         self.has_been_modified = False
         self.filename = filename
+
         # str=self.getList()
         # print(str)
         # f = open("C:\\Users\\roibi\\PycharmProjects\\NE\\Files\\demofile2.txt", "w")

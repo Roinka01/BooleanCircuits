@@ -31,10 +31,9 @@ class QDMNodeContentWidget(QWidget, Serializable):
         self.layout = QVBoxLayout()
         self.layout.setContentsMargins(0,0,0,0)
         self.setLayout(self.layout)
-
         self.wdg_label = QLabel("Inputs & Outputs:")
         self.layout.addWidget(self.wdg_label)
-        self.layout.addWidget(QDMTextEdit("Inputs:\n"+self.node.socketStrList))
+        self.layout.addWidget(QDMTextEdit("Inputs:\n" + self.node.socketStrList))
 
     def setEditingFlag(self, value:bool):
         """

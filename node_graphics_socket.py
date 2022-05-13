@@ -39,6 +39,8 @@ class QDMGraphicsSocket(QGraphicsItem):
 
     def getSocketColor(self, key):
         """Returns the ``QColor`` for this ``key``"""
+        if key>6:
+            key=6
         if type(key) == int: return SOCKET_COLORS[key]
         elif type(key) == str: return QColor(key)
         return Qt.transparent

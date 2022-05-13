@@ -9,6 +9,7 @@ from node_editor_window import NodeEditorWindow
 
 
 if __name__ == '__main__':
+  #wire x, y , not_inB, not_inA;
     app = QApplication(sys.argv)
     wnd = NodeEditorWindow()
     # fp = filePrsing()
