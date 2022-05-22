@@ -346,20 +346,22 @@ class Scene(Serializable):
         :type filename: ``str``
         :raises: :class:`~nodeeditor.node_scene.InvalidFile` if there was an error decoding JSON file
         """
-        with open(filename, "r") as file:
-            raw_data = file.read()
-            try:
-                if sys.version_info >= (3, 9):
-                    data = json.loads(raw_data)
-                else:
-                    data = json.loads(raw_data, encoding='utf-8')
-                self.filename = filename
-                self.deserialize(data)
-                self.has_been_modified = False
-            except json.JSONDecodeError:
-                raise InvalidFile("%s is not a valid JSON file" % os.path.basename(filename))
-            except Exception as e:
-                dumpException(e)
+        self.clear()
+        return True
+        # with open(filename, "r") as file:
+        #     raw_data = file.read()
+        #     try:
+        #         if sys.version_info >= (3, 9):
+        #             data = json.loads(raw_data)
+        #         else:
+        #             data = json.loads(raw_data, encoding='utf-8')
+        #         self.filename = filename
+        #         self.deserialize(data)
+        #         self.has_been_modified = False
+        #     except json.JSONDecodeError:
+        #         raise InvalidFile("%s is not a valid JSON file" % os.path.basename(filename))
+        #     except Exception as e:
+        #         dumpException(e)
 
 
     def getEdgeClass(self):

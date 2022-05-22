@@ -124,9 +124,10 @@ class NodeEditorWidget(QWidget):
         """
         QApplication.setOverrideCursor(Qt.WaitCursor)
         try:
-            # self.scene.loadFromFile(filename)
+            self.scene.loadFromFile(filename)
             self.scene.filename = filename
-            #self.scene.has_been_modified = False
+            self.scene.has_been_modified = False
+            #self.scence.deserialize(None)
             #self.scene.clearList()              #remove the old gate list
             fp = filePrsing(filename)
             _list = fp.getGates()
@@ -164,11 +165,20 @@ class NodeEditorWidget(QWidget):
 
     def addEdges(self, _List, nodes):
         i=0
+        j=0
         for g in _List.getGateList():
-            nextNodeInd, inputInd = _List.getConnectedGateInput(g)
-            if nextNodeInd!=0:
-                Edge(self.scene, nodes[i].outputs[0],nodes[nextNodeInd].inputs[inputInd], edge_type = EDGE_TYPE_BEZIER)
-                i+=1
+            #nextNodeInd, inputInd = _List.getConnectedGateInput(g)
+            connectedGates=_List.getConnectedGateInput(g)
+            if len(connectedGates)==0:
+                continue
+            while (j<len(connectedGates)):
+                nextNodeInd=connectedGates[j][0]
+                inputInd=connectedGates[j][1]
+                Edge(self.scene, nodes[i].outputs[0], nodes[nextNodeInd].inputs[inputInd], edge_type= EDGE_TYPE_BEZIER)
+                #Edge(self.scene, nodes[i].outputs[0],nodes[nextNodeInd].inputs[inputInd], edge_type = EDGE_TYPE_BEZIER)
+                j+=1
+            i+=1
+            j=0
 
     def addNodes(self,_List=None):
         """Testing method to create 3 `Nodes` with 3 `Edges` connecting them"""
