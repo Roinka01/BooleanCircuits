@@ -193,11 +193,8 @@ class QDMGraphicsNode(QGraphicsItem):
 
     def paint(self, painter, QStyleOptionGraphicsItem, widget=None):
         """Painting the rounded rectanglar `Node`"""
-        # title
         path_title = QPainterPath()
         path_title.setFillRule(Qt.WindingFill)
-    #    path_title.setFillRule(Qt.yellow)
-        #path_title.addEllipse(0, 0, self.width, self.title_height)
         path_title.addRoundedRect(0, 0, self.width, self.title_height, self.edge_roundness, self.edge_roundness)
         path_title.addRect(0, self.title_height - self.edge_roundness, self.edge_roundness, self.edge_roundness)
         path_title.addRect(self.width - self.edge_roundness, self.title_height - self.edge_roundness, self.edge_roundness, self.edge_roundness)

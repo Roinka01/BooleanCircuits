@@ -11,42 +11,43 @@ class filePrsing():
         pass
 
     def getGates(self):
-        gates = {'and', 'or', 'not'}
+        gates = {'and', 'or', 'not', 'xor','nand','nor'}
         listOfGates = []
         inputs = []
         outPuts = []
         outputPair = []
+        #Create an empty gate list
         _list=ConcatenatedGateList()
         i=0
+        input1=input2=None
+        #Initiate the list of gates from the file
         with open(self._fileName, "r") as file:
             for line in file:
                 line = line.lower()
                 if 'wire' in line:
-                    # beginInd = line.find('wire') + 'wire'.__len__()
-                    # endInd = line.find('\n')
-                    # outPuts = re.split(',|;', line[beginInd:endInd - 1])
-
                     _list.addWire(line)
-                    #wireList=line[line.find('wire')+4:].split(',')
-                    #listOfGates.append('OUTPUT')
-                    #inputPair = [outputName, outputName]
-                    #inputPair.append(i)
-                    #inputs.append(inputPair)
-                    #outputPair = ["NoName",i]
-                    #outPuts.append(outputPair)
-                    #_list.addGate(Gate("OUTPUT", inputs[i][0],inputs[i][1],outPuts[i][0], 0))
-                    #i += 1
                 elif 'endmodule' not in line and 'module' in line:
-                    outputName=line[line.find('output')+6:line.find(',')].strip()
-                    ind1 = line.find('input') + 5  # first input
-                    ind2 = line[ind1:].find(',') + ind1
-                    input1 = line[ind1:ind2].strip()
+                    outputInd=line.find('output')
+                    if (outputInd!=-1):
+                        endInd=line.find(',')
+                        if (endInd==-1):
+                            endInd = line.find(')')
+                        outputName=line[outputInd+6:endInd].strip()
+                        _list.setOutputName(outputName)
+                    ind1 = line.find('input') + 5  # first input ind
+                    if (ind1==-1):
+                        continue    #No entries to the circle
+                    ind2 = line[ind1:].find(',') + ind1  # end of first entry definition ind
+                    if (ind2<ind1):
+                        ind2 = line[ind1:].find(')') + ind1
+                    input1 = line[ind1:ind2].strip()    #get the first entry name
+                    _list.setFirstInputName(input1)
                     ind3 = line[ind2:].find("input") + 5 + ind2  # second input
-                    ind4 = line[ind3:].find(')') + ind3
-                    input2 = line[ind3:ind4].strip()
-                    ins=[input1,input2]
-                    _list.setInputNames(ins)
-                    _list.setOutputName(outputName)
+                    if (ind3-5>ind2):   #Second input exist
+                        ind4 = line[ind3:].find(')') + ind3
+                        input2 = line[ind3:ind4].strip()
+                    #ins=[input1,input2]
+                    _list.setSecInputName(input2)
                     #Add the first circle input to the list
                     listOfGates.append('INPUT')
                     inputPair = ["CircleInput"]
@@ -54,8 +55,10 @@ class filePrsing():
                     inputs.append(inputPair)
                     outputPair = [input1, i]
                     outPuts.append(outputPair)
-                    _list.addGate(Gate("INPUT", inputs[i][0],"",outPuts[i][0], 0))
+                    _list.addGate(Gate("INPUT", inputs[i][0],"",outPuts[i][0], 0,None, input1))
                     i += 1
+                    if input2 is None:
+                        continue
                     # Add the second circle input to the list
                     listOfGates.append('INPUT')
                     inputPair = ["CircleInput"]
@@ -63,13 +66,8 @@ class filePrsing():
                     inputs.append(inputPair)
                     outputPair = [input2, i]
                     outPuts.append(outputPair)
-                    _list.addGate(Gate("INPUT", inputs[i][0], "", outPuts[i][0], 0))
+                    _list.addGate(Gate("INPUT", inputs[i][0], "", outPuts[i][0], 0,None, input2))
                     i += 1
-                    #     inputs = line[line.find(',') :line.find(')')].split(',')
-                    #     #_list.addGate(Gate("OUTPUT", '','', outputName, 0))
-                    #     #i += 1
-                    #     # print("output=",outputName)
-                    #     # print("inputs=",inputs)
                 elif 'time' in line:
                     _list.addTimeScale(line)
                 elif ' and' in line:
@@ -79,7 +77,6 @@ class filePrsing():
                     inputs.append(inputPair)
                     outputPair=[line[line.find('(')+1:line.find(',')],i]
                     outPuts.append(outputPair)
-                    #ConcatenatedGateList.append(Gate("AND", inputs[i][0],inputs[i][1],outPuts[i][0],i))
                     _list.addGate(Gate("AND", inputs[i][0],inputs[i][1],outPuts[i][0],0))
                     i += 1
                 elif ' or' in line:
@@ -89,7 +86,33 @@ class filePrsing():
                     inputPair.append(i)
                     outputPair=[line[line.find('(') + 1:line.find(',')],i]
                     outPuts.append(outputPair)
-                    #ConcatenatedGateList.append(Gate("OR", inputs[i][0], inputs[i][1], outPuts[i][0], i))
+                    _list.addGate(Gate("OR", inputs[i][0], inputs[i][1], outPuts[i][0], 0))
+                    i += 1
+                elif ' xor' in line:
+                    listOfGates.append('OR')
+                    inputPair = line[line.find(',') + 1:line.find(')')].split(',')
+                    inputs.append(inputPair)
+                    inputPair.append(i)
+                    outputPair = [line[line.find('(') + 1:line.find(',')], i]
+                    outPuts.append(outputPair)
+                    _list.addGate(Gate("OR", inputs[i][0], inputs[i][1], outPuts[i][0], 0))
+                    i += 1
+                elif ' nand' in line:
+                    listOfGates.append('OR')
+                    inputPair = line[line.find(',') + 1:line.find(')')].split(',')
+                    inputs.append(inputPair)
+                    inputPair.append(i)
+                    outputPair = [line[line.find('(') + 1:line.find(',')], i]
+                    outPuts.append(outputPair)
+                    _list.addGate(Gate("OR", inputs[i][0], inputs[i][1], outPuts[i][0], 0))
+                    i += 1
+                elif ' nor' in line:
+                    listOfGates.append('OR')
+                    inputPair = line[line.find(',') + 1:line.find(')')].split(',')
+                    inputs.append(inputPair)
+                    inputPair.append(i)
+                    outputPair=[line[line.find('(') + 1:line.find(',')],i]
+                    outPuts.append(outputPair)
                     _list.addGate(Gate("OR", inputs[i][0], inputs[i][1], outPuts[i][0], 0))
                     i += 1
                 elif ' not' in line:
@@ -102,7 +125,6 @@ class filePrsing():
                     inputs.append(inputPair)
                     outputPair=[line[line.find('(') + 1:line.find(',')],i]
                     outPuts.append(outputPair)
-                    #ConcatenatedGateList.append(Gate("NOT", inputs[i][0],"", outPuts[i][0], 0))
                     _list.addGate(Gate("NOT", inputs[i][0],"", outPuts[i][0], 0))
                     i += 1
                 else:
@@ -112,7 +134,5 @@ class filePrsing():
         return _list
 
 
-# if __name__ == '__main__':
-#     fp = filePrsing()
-#     fp.getGates()
+
 

@@ -318,11 +318,6 @@ class Scene(Serializable):
         :param filename: where to save this scene
         :type filename: ``str``
         """
-        # with open(filename, "w") as file:
-        #     file.write( json.dumps( self.serialize(), indent=4 ) )
-        #     print("saving to", filename, "was successfull.")
-        #     self.has_been_modified = False
-        #     self.filename = filename
 
         l=self.getList()
         with open(filename, "w") as file:
@@ -330,13 +325,6 @@ class Scene(Serializable):
         print("saving to", filename, "was successfull.")
         self.has_been_modified = False
         self.filename = filename
-
-        # str=self.getList()
-        # print(str)
-        # f = open("C:\\Users\\roibi\\PycharmProjects\\NE\\Files\\demofile2.txt", "w")
-        # f.write(str)
-        # f.close()
-
 
     def loadFromFile(self, filename: str):
         """
@@ -348,20 +336,6 @@ class Scene(Serializable):
         """
         self.clear()
         return True
-        # with open(filename, "r") as file:
-        #     raw_data = file.read()
-        #     try:
-        #         if sys.version_info >= (3, 9):
-        #             data = json.loads(raw_data)
-        #         else:
-        #             data = json.loads(raw_data, encoding='utf-8')
-        #         self.filename = filename
-        #         self.deserialize(data)
-        #         self.has_been_modified = False
-        #     except json.JSONDecodeError:
-        #         raise InvalidFile("%s is not a valid JSON file" % os.path.basename(filename))
-        #     except Exception as e:
-        #         dumpException(e)
 
 
     def getEdgeClass(self):

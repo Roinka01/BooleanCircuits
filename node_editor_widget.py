@@ -181,13 +181,6 @@ class NodeEditorWidget(QWidget):
             j=0
 
     def addNodes(self,_List=None):
-        """Testing method to create 3 `Nodes` with 3 `Edges` connecting them"""
-        # node1 = Node(self.scene, "My Awesome Node 1", inputs=[0,0,0], outputs=[1,5])
-        # node2 = Node(self.scene, "My Awesome Node 2", inputs=[3,3,3], outputs=[1])
-        # node3 = Node(self.scene, "My Awesome Node 3", inputs=[2,2,2], outputs=[1])
-        # node1 = Node(self.scene, "OR GATE", inputs=[0, 0], outputs=[1])
-        # node2 = Node(self.scene, "AND GATE", inputs=[3, 3], outputs=[1])
-        # node3 = Node(self.scene, "XOR GATE", inputs=[2, 2], outputs=[1])
         if (_List is None):
             return None
 
@@ -201,9 +194,6 @@ class NodeEditorWidget(QWidget):
         i=0
         for g in _List.getGateList():
             nodes.insert(i, Node(self.scene, g, inputs=[i + 1, i + 1], outputs=[1]))
-            # nodes.insert(i, Node(self.scene, g.getGateType(),g.getPosition(),
-            #               g.getListEntries()+" Output: "+g.getOutput()
-            #                      , inputs=[i + 1, i + 1], outputs=[1]))
             currGatePos=g.getPosition()
             xPos=currGatePos*gateWidth-300
             if (prevPos==currGatePos):
@@ -215,16 +205,10 @@ class NodeEditorWidget(QWidget):
             i+=1
         self.addEdges(_List,nodes)
 
-        #edge1 = Edge(self.scene, node1.outputs[0], node2.inputs[0], edge_type=EDGE_TYPE_BEZIER)
-        #edge2 = Edge(self.scene, node2.outputs[0], node3.inputs[0], edge_type=EDGE_TYPE_BEZIER)
-        # edge3 = Edge(self.scene,y node1.outputs[0], node3.inputs[2], edge_type=EDGE_TYPE_BEZIER)
-
         self.scene.history.storeInitialHistoryStamp()
 
     def addCustomNode(self):
         """Testing method to create a custom Node with custom content"""
-        from nodeeditor.node_content_widget import QDMNodeContentWidget
-        from nodeeditor.node_serializable import Serializable
 
         class NNodeContent(QLabel):  # , Serializable):
             def __init__(self, node, parent=None):

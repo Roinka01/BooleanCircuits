@@ -1,7 +1,8 @@
 import os, sys
 
 class Gate():
-    def __init__(self, _type="", _entry1="", _entry2="", _output="", _pos=0, _nextGateEntry=None):
+    def __init__(self, _type="", _entry1="", _entry2="", _output="", _pos=0, _nextGateEntry=None, InputGateName=None):
+        self.InputGateName=InputGateName   #If this is a gate of type input, its name will be kept
         self.GateType=_type.strip()
         self.FirstEntry=_entry1.strip()
         self.SecondEntry=_entry2.strip()
@@ -11,6 +12,8 @@ class Gate():
     def setGateType(self, _type):
         GateType = _type.strip()
         print(GateType)
+    def getInputGateName(self):
+        return self.InputGateName
     def setPosition(self,_pos):
         self.position=_pos
     def setEntries(self, _entry1, _entry2=None):

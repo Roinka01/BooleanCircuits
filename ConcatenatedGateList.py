@@ -8,7 +8,8 @@ class ConcatenatedGateList:
         self._wire=''
         self._timeScale = ''
         self.outputName = None
-        self.inputNames = []
+        self.SecInputName = None
+        self.FirstInputName = None
     def addGate(self, gate ):
         self.GateList.append(gate)
         self.len+=1
@@ -16,9 +17,17 @@ class ConcatenatedGateList:
         ind=0
         for g in self.GateList:
             if (g.getPosition()==node.gatePos):  #gate found
+                if (g.getGateType()=='INPUT'):
+                    n=g.getInputGateName()
+                    if (self.getInputFirstName()==n):
+                        self.FirstInputName = None
+                    elif (self.getInputSecName()==n):
+                        self.SecInputName = None
                 self.GateList.pop(ind)
+                self.len -= 1
+                return
             ind+=1
-        self.len -= 1
+
 
     def addWire(self, wireLine):
         self._wire=wireLine
@@ -28,10 +37,16 @@ class ConcatenatedGateList:
         self.outputName=outName
     def getOutputName(self):
         return self.outputName
-    def setInputNames(self, _inputNames=None):
-        self.inputNames=_inputNames
+    def setFirstInputName(self,name):
+        self.FirstInputName=name
+    def setSecInputName(self,name):
+        self.SecInputName=name
     def getInputNames(self):
-        return self.inputNames
+        return [self.FirstInputName, self.SecInputName]
+    def getInputFirstName(self):
+        return self.FirstInputName
+    def getInputSecName(self):
+        return self.SecInputName
     def addTimeScale(self, timeScaleLine):
         self._timeScale=timeScaleLine
     def getTimeScale(self):
@@ -41,23 +56,28 @@ class ConcatenatedGateList:
     def getConnectedGateInput(self,currGate):
         outputGateName = currGate.getOutput()
         ind=0
+        connectedGates=[]
         for g in self.getGateList():
             if outputGateName in g.getListEntries():  # following gate found
                 if outputGateName == g.getEntries()[0]:
-                    return ind,0
+                    connectedGates.append((ind,0))
                 elif outputGateName == g.getEntries()[1]:
-                    return ind, 1
+                    connectedGates.append((ind,1))
             ind+=1
-        return 0,0
+        return connectedGates
 
     def printList(self):
         for gl in self.GateList:
             print(gl.getGateCharectaristics())
     def listToProlog(self):
         prlFile=self.getTimeScale()+'\n'+'module my_boolean_circuit (output '
-        prlFile+=self.outputName+", input "+self.getInputNames()[0]+', input '+self.getInputNames()[1]+');\n'
-        prlFile+=self.getWire() #+'\n'
-        # print(prlFile)
+        prlFile+=self.outputName;
+        if (self.getInputFirstName() is not None):
+            prlFile+=", input "+self.getInputFirstName()
+        if (self.getInputSecName() is not None):
+            prlFile+=', input '+self.getInputSecName()
+        prlFile+=');\n'
+        prlFile+=self.getWire()
         for gate in self.GateList:
             if (gate.getGateType().lower()=='input'):
                 continue
@@ -71,7 +91,6 @@ class ConcatenatedGateList:
         l=''
         for gl in self.GateList:
             l+=gl.getGateCharectaristics()+'\n'
-        # print("in list: ",l)
         return l
     def getListLength(self):
         return self.len

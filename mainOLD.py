@@ -9,20 +9,9 @@ from node_editor_window import NodeEditorWindow
 
 
 if __name__ == '__main__':
-  #wire x, y , not_inB, not_inA;
     app = QApplication(sys.argv)
     wnd = NodeEditorWindow()
-    # fp = filePrsing()
-    # _list=fp.getGates()
-    # _list.sortList()
-    # # _list.printList()
-    # wnd.nodeeditor.addNodes(_list)
     wnd.nodeeditor.addNodes()
-    # wnd.nodeeditor.addNodes(None)
-    # _list.printList()
-    # wnd.nodeeditor.addNodes(_list)
-    #wnd.nodeeditor.addEdges(_list)
-    # wnd.nodeeditor.addCustomNode()
     module_path = os.path.dirname( inspect.getfile(wnd.__class__) )
     loadStylesheet( os.path.join( module_path, 'qss/nodestyle.qss') )
     sys.exit(app.exec_())
