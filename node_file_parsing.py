@@ -35,7 +35,7 @@ class filePrsing():
                         outputName=line[outputInd+6:endInd].strip()
                         _list.setOutputName(outputName)
                     ind1 = line.find('input') + 5  # first input ind
-                    if (ind1==-1):
+                    if (ind1<5):
                         continue    #No entries to the circle
                     ind2 = line[ind1:].find(',') + ind1  # end of first entry definition ind
                     if (ind2<ind1):
